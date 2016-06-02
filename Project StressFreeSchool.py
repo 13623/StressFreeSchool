@@ -7,9 +7,21 @@ def main():
     global name
     global profession
     global yourTest
-    name = input("What is your first name?")
+    name = input("What is your first name?")    
     name = name + " " + input('What is your last name?')
+    if any(char.isdigit() for char in name) == True:
+        print("That wasn't your name. Please try again")
+        main()
     profession = input("Are you a student or a teacher?")
+    if profession[0] == "s" or profession[1] == "S":
+        print("I take it as you meant student")
+        profession = "students"
+    elif profession[0] == "t" or profession[1] == "t":
+        print("I take it as you meant teacher")
+        profession = "teachers"
+    else:
+        profession = input("I have no idea what you typed in. Please try again")
+        main()
     try:
         yourTest = open(os.path.join(os.getcwd()+"\Database",name +'.txt' ),'r+') #If the person has already done the test and the file is in the database, it will be able to open
         print("We see that you have already done this test. Would you like to try again or just view your previous results?")
@@ -26,18 +38,7 @@ def main():
 
 def test():
     responses = {} #creating a dictionary to record responses
-    while True:
-        try:
-            Questions = open(os.path.join(os.getcwd()+"\Resources",profession+".txt"),'r') #opening the text file to read questions from
-        except FileNotFoundError:
-            if profession[1] == "s" or profession[1] == "S":
-                print("I take it as you meant student")
-                profession = "students"
-            elif profession[1] == "t" or profession[1] == "t":
-                print("I take it as you meant student")
-                profession = "teachers"
-            else:
-                profession = input("I have no idea what you typed in. Please try again")
+    Questions = open(os.path.join(os.getcwd()+"\Resources",profession+".txt"),'r') #opening the text file to read questions from
     QuestionNo = 0 #initialising the QuestionNo variable
     TotalScore = 0 #initialising the TotalScore variable
     for line in Questions:
@@ -53,6 +54,11 @@ def test():
                     print("You can only type in an integer between 1 ~ 5.")
             except ValueError:
                 print("You didn't type in a number. Please try again")
+            try:
+                if len(answer) > 0:
+                    break
+            except TypeError:
+                print("You didn't type in anything. Please try again")            
         yourTest.write (line)
         yourTest.write (str(answer))
         responses[QuestionNo] = answer
