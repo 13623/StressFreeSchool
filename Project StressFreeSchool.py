@@ -26,7 +26,7 @@ def main():
         print("I take it as you meant teacher")
         profession = "teachers"
     else:
-        profession = input("I have no idea what you typed in. Please try again: ")
+        profession = print("I have no idea what you typed in. Please try again ")
         main()
     try:
         yourTest = open(os.path.join(os.getcwd()+"\Database",name +'.txt' ),'r+') #If the person has already done the test and the file is in the database, it will be able to open
@@ -37,7 +37,7 @@ def main():
             yourTest.truncate() #Wipe everything on the text file, to prevent writing things over it
             test()
         else:
-            review(yourTest)
+            review()
     except FileNotFoundError: #This means the user hasn't done the test yet therefore no file for him in the database
         yourTest = open(os.path.join(os.getcwd()+"\Database",name +'.txt'),'w') #initialising the text file to record responses
         test()
@@ -62,6 +62,7 @@ def test():
                 print("You didn't type in a number. Please try again")     
         yourTest.write (line)
         yourTest.write (str(answer))
+        yourTest.write ("\n")
         responses[QuestionNo] = answer
         TotalScore = TotalScore + answer
     print (TotalScore)
@@ -92,10 +93,38 @@ def results(TotalScore):
     for line in advice:
         print (line)
         yourTest.write(line)
-        time.sleep(len(line)/8) #wait total characters/8 seconds to give the user a bit of time to read before it prints the next line
+        time.sleep(len(line)/12) #wait total characters/12 seconds to give the user a bit of time to read before it prints the next line
     yourTest.close()
     print("Going Back to main menu")
-    
+
+def review():
+    print("Your can either view the whole test or your answer to a specific question.")
+    reviewOption = input("press w for the whole test, s for specific question")
+    if reviewOption.lower() == "w":
+        for line in yourTest:
+            try:
+                line = int(line)
+                if line == 5:
+                    print("You said it is always true")
+                elif line == 4:
+                    print("You said it is mostly true")
+                elif line == 3:
+                    print("You said it is quite true")
+                elif line == 2:
+                    print("You said it is occasionally true")
+                elif line == 1:
+                    print("You said it is never true")
+                print("\n")
+            except:              
+                print(line)
+        print("Going back to main menu")
+        main()
+    elif reviewOption.lower() == "s":
+        print("later")
+    else:
+        print("W or S please")
+        review()
+        
             
             
     
