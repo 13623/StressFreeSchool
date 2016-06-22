@@ -96,36 +96,53 @@ def results(TotalScore):
         time.sleep(len(line)/12) #wait total characters/12 seconds to give the user a bit of time to read before it prints the next line
     yourTest.close()
     print("Going Back to main menu")
-
+    
+def responseConvert(response):
+    if response == 5:
+        print("You said it is always true")
+    elif response == 4:
+        print("You said it is mostly true")
+    elif response == 3:
+        print("You said it is quite true")
+    elif response == 2:
+        print("You said it is occasionally true")
+    elif response == 1:
+        print("You said it is never true")    
+    
 def review():
     print("Your can either view the whole test or your answer to a specific question.")
     reviewOption = input("press w for the whole test, s for specific question")
     if reviewOption.lower() == "w":
         for line in yourTest:
             try:
-                line = int(line)
-                if line == 5:
-                    print("You said it is always true")
-                elif line == 4:
-                    print("You said it is mostly true")
-                elif line == 3:
-                    print("You said it is quite true")
-                elif line == 2:
-                    print("You said it is occasionally true")
-                elif line == 1:
-                    print("You said it is never true")
+                responseConvert(int(line))
                 print("\n")
+                time.sleep(0.5)
             except:              
                 print(line)
+                time.sleep(0.5)
         print("Going back to main menu")
         main()
     elif reviewOption.lower() == "s":
-        print("later")
+        while True:
+            try:    
+                QuestionNo = int(input("Please type in the number of question you would like to review: "))
+                i = 1
+                for line in yourTest:
+                    if i == QuestionNo*2-1:
+                        print (line)
+                    elif i == QuestionNo*2:
+                        responseConvert(int(line))
+                        break
+                    i += 1
+                break
+            except ValueError:
+                print("You didn't type in an integer, please try again")
+        print("Going back to start menu")
+        main()
+        
     else:
         print("W or S please")
         review()
         
-            
-            
-    
 main()
