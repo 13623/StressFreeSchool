@@ -1,8 +1,8 @@
 import webbrowser
 import audioop
-import tkinter
 import os.path
 import time
+from tkinter import *
 def main():
     global name
     global profession
@@ -26,7 +26,7 @@ def main():
         print("I take it as you meant teacher")
         profession = "teachers"
     else:
-        profession = print("I have no idea what you typed in. Please try again ")
+        print("I have no idea what you typed in. Please try again ")
         main()
     try:
         yourTest = open(os.path.join(os.getcwd()+"\Database",name +'.txt' ),'r+') #If the person has already done the test and the file is in the database, it will be able to open
@@ -38,7 +38,7 @@ def main():
             test()
         else:
             review()
-    except FileNotFoundError: #This means the user hasn't done the test yet therefore no file for him in the database
+    except: #This means the user hasn't done the test yet therefore no file for him in the database
         yourTest = open(os.path.join(os.getcwd()+"\Database",name +'.txt'),'w') #initialising the text file to record responses
         test()
 
@@ -49,12 +49,12 @@ def test():
     TotalScore = 0 #initialising the TotalScore variable
     for line in Questions:
         print(line) #print each line, whatever the current line variable holds
-        QuestionNo = QuestionNo + 1 
+        QuestionNo = QuestionNo + 1
         print("Rate how relatable the statement is in range between 1 ~ 5, with 1 being never true and 5 being always true")
         while True:
             try: 
                 answer = int(input())
-                if answer < 6 and answer > 0:
+                if 0 < answer < 6:
                     break
                 else:
                     print("You can only type in an integer between 1 ~ 5.")
@@ -74,18 +74,18 @@ def results(TotalScore):
     if profession == "students":
         if TotalScore < 99:
             status = "normal"
-        elif TotalScore > 99 and TotalScore < 131:
+        elif 131 > TotalScore > 99:
             status = "low"
-        elif TotalScore > 131 and TotalScore < 177:
+        elif 172 > TotalScore > 131:
             status = "moderate"
         else:
             status = "high"
     elif profession == "teachers":
         if TotalScore < 60:
             status = "normal"
-        elif TotalScore > 61 and TotalScore < 81:
+        elif 81 > TotalScore > 61:
             status = "low"
-        elif TotalScore > 82 and TotalScore < 110:
+        elif 110 > TotalScore > 82:
             status = "moderate"
         else:
             status = "high"
