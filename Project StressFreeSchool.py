@@ -8,10 +8,10 @@ def main():
     global profession
     global yourTest
     name = input("What is your first name?")    
-    name = name + " " + input('What is your last name?')
+    name = name + " " + input('What is your last name?') #This allows me to store first name and last name in a single variable
     if any(char.isdigit() for char in name) == True: #Check if the user typed in a number
         print("That is not your name. Your name doesn't have numbers. Please try again")
-        main()
+        main() #go back to the start
     elif set('[~!@#$%^&*()_+{}":;\']+$').intersection(name): # checks if the user typed in a special character
         print ("You put a special character. That's not your name.")
         main()
@@ -19,10 +19,10 @@ def main():
         print ("It looks wrong. Check if you put space in your name or anything at all.")
         main()
     profession = input("Are you a student or a teacher?")
-    if profession[0] == "s" or profession[0] == "S":
+    if profession[0] == "s" or profession[0] == "S": #if the first letter is s, assume they meant student
         print("I take it as you meant student")
         profession = "students"
-    elif profession[0] == "t" or profession[0] == "T":
+    elif profession[0] == "t" or profession[0] == "T": #if the first letter is t, assume they meant teacher
         print("I take it as you meant teacher")
         profession = "teachers"
     else:
@@ -60,12 +60,11 @@ def test():
                     print("You can only type in an integer between 1 ~ 5.")
             except ValueError:
                 print("You didn't type in a number. Please try again")     
-        yourTest.write (line)
-        yourTest.write (str(answer))
-        yourTest.write ("\n")
-        responses[QuestionNo] = answer
-        TotalScore = TotalScore + answer
-    print (TotalScore)
+        yourTest.write (line) #write the question in the text file
+        yourTest.write (str(answer)) #write the response in the text file, in a number format
+        yourTest.write ("\n") #new line
+        responses[QuestionNo] = answer #record it in the dictionary
+        TotalScore = TotalScore + answer #calculate the total score
     results(TotalScore)
 
 def results(TotalScore):
@@ -89,7 +88,7 @@ def results(TotalScore):
             status = "moderate"
         else:
             status = "high"
-    advice = open(os.path.join(os.getcwd()+"\Resources",status+'.txt'),'r')
+    advice = open(os.path.join(os.getcwd()+"\Resources",status+'.txt'),'r') #advice is recorded on a text file
     for line in advice:
         print (line)
         yourTest.write(line)
@@ -97,7 +96,7 @@ def results(TotalScore):
     yourTest.close()
     print("Going Back to main menu")
     
-def responseConvert(response):
+def responseConvert(response): #this function is to convert numeric responses to human readable text
     if response == 5:
         print("You said it is always true")
     elif response == 4:
@@ -115,28 +114,27 @@ def review():
     if reviewOption.lower() == "w":
         for line in yourTest:
             try:
-                responseConvert(int(line))
+                responseConvert(int(line)) # checks if the line is a number, in which case it would be response
                 print("\n")
-                time.sleep(0.5)
-            except:              
-                print(line)
-                time.sleep(0.5)
+                time.sleep(0.5) #a bit of time for the user to read
+            except: #if the line is question, just read it out              
+                print(line) 
+                time.sleep(0.5) 
         print("Going back to main menu")
         main()
-    elif reviewOption.lower() == "s":
+    elif reviewOption.lower() == "s": #S or s, the same
         while True:
             try:    
                 QuestionNo = int(input("Please type in the number of question you would like to review: "))
                 i = 1
                 for line in yourTest:
-                    if i == QuestionNo*2-1:
+                    if i == QuestionNo*2-1: #the question is in lines of odd numbers, 13 will be where 7th question is located
                         print (line)
                     elif i == QuestionNo*2:
-                        responseConvert(int(line))
-                        break
-                    i += 1
+                        responseConvert(int(line)) #the response to the question is in the next line, sending the integer to response conver function
+                    i += 1 #keeps checking the line until it is the line the user is looking for
                 break
-            except ValueError:
+            except ValueError: #user didn't type in an integer
                 print("You didn't type in an integer, please try again")
         print("Going back to start menu")
         main()
