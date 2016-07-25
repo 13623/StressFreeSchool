@@ -1,5 +1,3 @@
-import webbrowser
-import audioop
 import os.path
 import time
 from tkinter import *
@@ -7,8 +5,8 @@ def main():
     global name
     global profession
     global yourTest
-    name = input("What is your first name?")    
-    name = name + " " + input('What is your last name?') #This allows me to store first name and last name in a single variable
+    name = input("What is your first name? ")    
+    name = name + " " + input('What is your last name? ') #This allows me to store first name and last name in a single variable
     if any(char.isdigit() for char in name) == True: #Check if the user typed in a number
         print("That is not your name. Your name doesn't have numbers. Please try again")
         main() #go back to the start
@@ -18,7 +16,7 @@ def main():
     elif name[0] == " " or '  '.join(name.split()) == name.strip(): #Check if the user typed in nothing but space
         print ("It looks wrong. Check if you put space in your name or anything at all.")
         main()
-    profession = input("Are you a student or a teacher?")
+    profession = input("Are you a student or a teacher? ")
     if profession[0] == "s" or profession[0] == "S": #if the first letter is s, assume they meant student
         print("I take it as you meant student")
         profession = "students"
