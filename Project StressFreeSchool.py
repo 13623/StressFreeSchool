@@ -33,6 +33,9 @@ def main():
         print("I have no idea what you typed in. Please try again ")
         main()
     try:
+        """
+        The test file is open in this function because it allows me to direct the user to appropriate function depending on what they want to do, such as reviewing their test or doing it again, if they have already done the test. If it was initialised in stressTest function, it will provide no option for the user to review their existing results.
+        """
         yourTest = open(os.path.join(os.getcwd()+"\Database",name +'.txt' ),'r+') #If the person has already done the test and the file is in the database, it will be able to open
         print("We see that you have already done this test. Would you like to try again or just view your previous results?")
         print("By agreeing to try again, you will lose your previous results.")
